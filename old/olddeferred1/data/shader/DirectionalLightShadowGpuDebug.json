@@ -1,0 +1,9 @@
+{
+  "geometry" : "ShadowGpu.gs",
+  "vertex" : "ShadowGpu.vs",
+  "fragment" : "White.fs",
+  "geometry_defines" : {
+    "DEBUG" : "",
+    "DIRECTIONAL" : ""
+  }
+}

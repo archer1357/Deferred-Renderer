@@ -1,0 +1,13 @@
+{
+  "vertex" : "SkyBox.vs",
+  "fragment" : "SkyBox.fs",
+  "fragment_defines" : {
+    "BLUISH" : ""
+  },
+  "attributes" : {
+    "a_pos" : 0
+  },
+  "samplers" : {
+    "u_cubeMap" : 3
+  }
+}

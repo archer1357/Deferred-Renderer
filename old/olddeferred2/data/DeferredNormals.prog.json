@@ -1,0 +1,11 @@
+{
+  "vertex" : "Deferred.vs",
+  "fragment" : "DeferredNormals.fs",
+  "attributes" : {
+    "a_pos" : 0
+  },
+  "samplers" : {
+    "u_norMap" : 1,
+    "u_depthMap" : 2
+  }
+}

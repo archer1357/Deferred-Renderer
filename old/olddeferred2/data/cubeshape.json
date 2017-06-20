@@ -1,0 +1,20 @@
+{
+  "indices": {
+    "type": "ushort", 
+    "data": "AAABAAIAAAACAAMAAwAEAAUAAwAFAAAABAAGAAcABAAHAAUAAQAHAAYAAQAGAAIAAQAAAAUAAQAFAAcABgAEAAMABgADAAIA"
+  }, 
+  "vertices": {
+    "positions": {
+      "size": 3, 
+      "type": "float", 
+      "data": "AACAPwAAgL///3+/AACAv///f78AAIC///9/vwAAgD8AAIC/AQCAP///fz///3+/AACAP///fz8AAIA///9/PwAAgL8AAIA/AACAvwAAgD///38/AQCAv///f7///38/"
+    }
+  }, 
+  "draws": {
+    "default": {
+      "count": 36, 
+      "mode": "triangles", 
+      "first": 0
+    }
+  }
+}

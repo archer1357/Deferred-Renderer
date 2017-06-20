@@ -1,0 +1,21 @@
+{
+  "vertices" : {
+    "positions" : {
+      "size" : 3,
+      "type" : "float",
+      "data" : [-1,0,-1,1,0,-1,1,0,1,-1,0,1]
+    },
+    "normals" : {
+      "size" : 3,
+      "type" : "float",
+      "data" : [0,-1,0,0,-1,0,0,-1,0,0,-1,0]
+    }
+  },
+  "draws" : {
+    "default" : {
+      "mode" : "triangle_strip",
+      "first" : 0,
+      "count" : 4
+    }
+  }
+}

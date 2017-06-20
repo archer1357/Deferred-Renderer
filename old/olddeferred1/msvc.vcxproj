@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base64.h" />
+    <ClInclude Include="FileMonitor.h" />
+    <ClInclude Include="MouseSmooth.h" />
+    <ClInclude Include="SceneDirectionalLight.h" />
+    <ClInclude Include="Draw.h" />
+    <ClInclude Include="FileWatcher.h" />
+    <ClInclude Include="FileWatcherImpl.h" />
+    <ClInclude Include="FileWatcherLinux.h" />
+    <ClInclude Include="FileWatcherOSX.h" />
+    <ClInclude Include="FileWatcherWin32.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="GeometryVao.h" />
+    <ClInclude Include="GeometryVaoManager.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Mat4.h" />
+    <ClInclude Include="SceneMesh.h" />
+    <ClInclude Include="ScenePointLight.h" />
+    <ClInclude Include="ProgramManager.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererGeometryMaterial.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneShadow.h" />
+    <ClInclude Include="ShadowVolumeCpuGeometry.h" />
+    <ClInclude Include="SceneSpotLight.h" />
+    <ClInclude Include="SimpleRenderer.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Vao.h" />
+    <ClInclude Include="Vec3.h" />
+    <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base64.cpp" />
+    <ClCompile Include="FileMonitor.cpp" />
+    <ClCompile Include="MouseSmooth.cpp" />
+    <ClCompile Include="SceneDirectionalLight.cpp" />
+    <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="FileWatcher.cpp" />
+    <ClCompile Include="FileWatcherLinux.cpp" />
+    <ClCompile Include="FileWatcherOSX.cpp" />
+    <ClCompile Include="FileWatcherWin32.cpp" />
+    <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="GeometryVao.cpp" />
+    <ClCompile Include="GeometryVaoManager.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SceneMesh.cpp" />
+    <ClCompile Include="ScenePointLight.cpp" />
+    <ClCompile Include="ProgramManager.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RendererGeometryMaterial.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneShadow.cpp" />
+    <ClCompile Include="ShadowVolumeCpuGeometry.cpp" />
+    <ClCompile Include="SceneSpotLight.cpp" />
+    <ClCompile Include="SimpleRenderer.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Vao.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0EDE3924-0C23-4ED7-B9EE-99CB11F466BC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>msvc</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>win32/include;$(IncludePath)</IncludePath>
+    <LibraryPath>win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>win32/include;$(IncludePath)</IncludePath>
+    <LibraryPath>win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+    <IntDir>bin\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLCOREARB_PROTOTYPES;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32.lib;glfw3dll.lib;lua.lib;opengl32.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>GLCOREARB_PROTOTYPES;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32.lib;glfw3dll.lib;lua.lib;opengl32.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

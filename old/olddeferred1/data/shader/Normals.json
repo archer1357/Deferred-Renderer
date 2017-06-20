@@ -1,0 +1,5 @@
+{
+  "vertex" : "Normals.vs",
+  "geometry" : "Normals.gs",
+  "fragment" : "Normals.fs"
+}

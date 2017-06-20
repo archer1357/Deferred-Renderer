@@ -1,0 +1,4 @@
+{
+  "vertex" : "Parallax.vs",
+  "fragment" : "Parallax.fs"
+}

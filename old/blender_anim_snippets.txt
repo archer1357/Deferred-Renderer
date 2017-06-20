@@ -1,0 +1,290 @@
+
+def object_compare(x, y):
+  if x.parent == None and y.parent != None:
+    return -1
+
+  if x.parent != None and y.parent == None:
+    return 1
+
+  if x.parent == None and y.parent == None:
+    return 0
+
+  return object_compare(x.parent,y.parent)
+
+myarmatures=[arm for arm in bpy.data.armatures if arm.users > 0]
+
+for arm in myarmatures:
+  fh.write('\n\narmatures["%s"]={'%(arm.name))
+  #sort by parents?
+  for bone in arm.bones:
+    fh.write('\n\t["%s"]={}'%bone.name)
+    #parent
+    #head
+    #tail
+    #envelope
+
+
+  objects=bpy.context.selected_objects if bpy.context.selected_objects else bpy.data.objects
+  sorted_objects=sorted(objects,key=functools.cmp_to_key(object_compare))
+
+  for ob in sorted_objects:
+    print(ob.name)
+
+  print("\n")
+
+  for actionInd,action in enumerate(bpy.data.actions):
+    print("action: %s %s (%g %g)"%(action.name,action.id_root,
+                           action.frame_range[0],
+                           action.frame_range[1]))
+
+
+    for group in action.groups:
+      print(" group: %s %s"%(group.name,group.select))
+
+      for fcurve in group.channels:
+        ""
+
+    #
+    for pose_marker in action.pose_markers:
+      print(" pose_marker:  %s %s %r (%i %i)"%(
+        pose_marker.name,pose_marker.camera.name,
+        pose_marker.select,
+        pose_marker.frame[0],pose_marker.frame[1]))
+
+
+    #
+    for fcurve in action.fcurves:
+      print("\n fcurve: (%g,%g) %s %s %i"%(
+        fcurve.range()[0],fcurve.range()[1],
+        fcurve.extrapolation,
+        fcurve.data_path,
+        fcurve.array_index))
+
+      for sampled_point in fcurve.sampled_points:
+        print("  sampled_point: .")
+
+      for modifier in fcurve.modifiers:
+        print("  modifier: .")
+
+      for keyframe in fcurve.keyframe_points:
+        print("  keyframe_point:\n   (%g %g)\n   (%g %g)\n   (%g %g)\n   %s %s %s %s\n"%(
+          keyframe.co[0],keyframe.co[1],
+          keyframe.handle_left[0],
+          keyframe.handle_left[1],
+          keyframe.handle_right[0],
+          keyframe.handle_right[1],
+          keyframe.handle_left_type,
+          keyframe.handle_right_type,
+          keyframe.type,
+          keyframe.interpolation))
+		  
+		  
+
+
+
+bm = bmesh.new()
+print(bm.loops.layers.uv)
+# lastOb=None
+
+for ob in objects2:
+  me=ob.data
+#   ""
+  print(ob.name)
+  print(ob.data.polygons)
+  for face in ob.data.polygons:
+    for faceVertInd,vertInd in enumerate(face.vertices):
+      print(faceVertInd,vertInd)
+  lastOb=ob
+
+  #
+  # vertFrom=len(bm.verts)
+  # bm.from_mesh(ob.data)
+  # bmesh.ops.triangulate(bm, faces=bm.faces)
+  # vertTo=len(bm.verts)
+  # print(vertFrom,vertTo)
+
+  for vert in bm.verts:
+    bm.verts.new(vert)
+
+  #
+  # bmesh.ops.transform(bm,matrix=ob.matrix_world,verts=bm.verts[vertFrom:vertTo])
+
+print([x.normal for x in bm.verts[:]])
+bm.to_mesh(lastOb.data)
+
+# print(bm.loops.layers.uv.active)
+# print([x for x in bm.loops.layers.uv])
+# for face in bm.faces:
+#   for loop in face.loops:
+#     print([(k,v) for k,v in loop.items()])
+#     # print(loop["UVMap"])
+bm.free()
+del bm
+
+drawModeItems=[("triangles","triangles","triangles"),
+               # ("points","points","points"),
+               # ("lines","lines","lines"),
+               ("triangles_adjacency","triangles_adjacency","triangles_adjacency")]
+drawMode=bpy.props.EnumProperty(items=drawModeItems,default="triangles",
+                                   name="draw mode",description="")
+								   
+
+class MyExportMesh(bpy.types.Operator, bpy_extras.io_utils.ExportHelper):
+  bl_idname = "my_export.mesh";
+  bl_label = "Export";
+  bl_options = {'PRESET'};
+  filename_ext = ".mesh";
+
+  useNormals=bpy.props.BoolProperty(name="normals",default=True)
+  useTexcoords=bpy.props.BoolProperty(name="texcoords",default=False)
+  useTangents=bpy.props.BoolProperty(name="tangents",default=False)
+  useColors=bpy.props.BoolProperty(name="colors",default=False)
+  useMaterialColors=bpy.props.BoolProperty(name="material colors",default=False)
+  # useYUp=bpy.props.BoolProperty(name="y-axis up",default=True)
+  # useLeftHanded=bpy.props.BoolProperty(name="left-handed",default=False)
+  # useFlat=bpy.props.BoolProperty(name="flat shading",default=False)
+  useAdjacent=bpy.props.BoolProperty(name="adjacency",default=False)
+  useUShortIndices=bpy.props.BoolProperty(name="short indices",default=False)
+
+  useTransform=bpy.props.BoolProperty(name="transform",default=True)
+  useSelected=bpy.props.BoolProperty(name="selected",default=False)
+  # useSelectedFaces=bpy.props.BoolProperty(name="selected faces",default=False)
+
+  def execute(self, context):
+    with open(self.filepath, 'wb') as fh:
+
+      mes=do_meshes(self.useSelected,self.useNormals,
+                    self.useTexcoords,self.useTangents,
+                    self.useColors,
+                    self.useTransform,self.useUShortIndices,
+                    self.useAdjacent,
+                    False, #self.useFlat,
+                    self.useMaterialColors,
+                    True, #self.useYUp,
+                    False, #self.useSelectedFaces,
+                    # ,self.useLeftHanded
+                    False)
+
+
+      #
+      vertsNum=mes["vertices_num"]
+      indsNum=mes["indices_num"]
+
+      uvsNum=len(mes["uv_names"]) if "texcoords" in mes.keys() or "tangents" in mes.keys() else 0
+      colsNum=len(mes["color_names"]) if "colors" in mes.keys() else 0
+      hasNors=1 if self.useNormals else 0
+      hasTexs=1 if "texcoords" in mes.keys() and len(mes["texcoords"])>0 else 0
+      hasTangs=1 if "tangents" in mes.keys() and len(mes["tangents"])>0 else 0
+      hasMtrlCols=1 if "material_colors" in mes.keys() else 0
+
+      hasShortInds=1 if self.useUShortIndices else 0
+      materialsNum=len(mes["materials"])
+
+      print(vertsNum)
+      print(indsNum)
+
+      #
+      meshes_toBytes(mes,self.useUShortIndices)
+
+      #write verticesNum
+      fh.write(struct.pack('I',vertsNum))
+
+      #write indicesNum
+      fh.write(struct.pack('I',indsNum))
+
+      #write uvsNum
+      fh.write(struct.pack('I',uvsNum))
+
+      #write colorsNum
+      fh.write(struct.pack('I',colsNum))
+
+      #write materialsNum
+      fh.write(struct.pack('I',materialsNum))
+
+      #write hasNors
+      fh.write(struct.pack('I',hasNors))
+
+      #write hasTexs
+      fh.write(struct.pack('I',hasTexs))
+
+      #write hasTangs
+      fh.write(struct.pack('I',hasTangs))
+
+      #write hasMtrlCols
+      fh.write(struct.pack('I',hasMtrlCols))
+
+      #write hasShortInds
+      fh.write(struct.pack('I',hasShortInds))
+
+      #write uv (name,length)s
+      if "texcoords" in mes.keys() or "tangents" in mes.keys():
+        for k in mes["uv_names"]:
+          fh.write(struct.pack('I', len(k)))
+          fh.write(bytes(k,'ascii'))
+
+      #write color (name,length)s
+      if "colors" in mes.keys():
+        for k in mes["color_names"]:
+          fh.write(struct.pack('I', len(k)))
+          fh.write(bytes(k,'ascii'))
+
+      #write material (name,length)s
+      for k in mes["material_names"]:
+        fh.write(struct.pack('I', len(k)))
+        fh.write(bytes(k,'ascii'))
+
+      #write positions
+      fh.write(mes["positions"])
+
+      #write normals
+      if "normals" in mes.keys():
+        fh.write(mes["normals"])
+
+      #write texcoords
+      if "texcoords" in mes.keys():
+        for k in mes["uv_names"]:
+          fh.write(mes["texcoords"][k])
+
+      #write tangents
+      if "tangents" in mes.keys():
+        for k in mes["uv_names"]:
+          fh.write(mes["tangents"][k])
+
+      #write colors
+      if "colors" in mes.keys():
+        for k in mes["color_names"]:
+          fh.write(mes["colors"][k])
+
+      #write normals
+      if "material_colors" in mes.keys():
+        fh.write(mes["material_colors"])
+
+      #write indices
+      fh.write(mes["indices"])
+
+
+      #write materials
+      for i,n in enumerate(mes["material_names"]):
+        v=mes["materials"][n]
+
+        fh.write(struct.pack('I',v["first"]))
+        fh.write(struct.pack('I',v["count"]))
+
+        fh.write(struct.pack('f', v["alpha"]))
+        fh.write(struct.pack('4f',
+                             v["color"][0],
+                             v["color"][1],
+                             v["color"][2],
+                             v["alpha"]))
+        fh.write(struct.pack('f', v["fresnel"]))
+        fh.write(struct.pack('f', v["fresnel_factor"]))
+        fh.write(struct.pack('f', v["emit"]))
+        fh.write(struct.pack('f', v["roughness"]))
+        fh.write(struct.pack('f', v["hardness"]))
+        fh.write(struct.pack('f', v["intensity"]))
+
+
+    print('Exported to "%s".'%self.filepath)
+    return {'FINISHED'};
+
+  self.layout.operator(MyExportMesh.bl_idname, text="My Mesh (.mesh)");

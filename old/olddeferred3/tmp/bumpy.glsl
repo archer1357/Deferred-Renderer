@@ -1,0 +1,349 @@
+
+layout(std140,row_major,binding=0) uniform transform {
+ // uniform transform {
+  // mat4 u_modelViewProjMat2;
+  vec4 mycol;
+  // mat3 u_normalMat;
+  // mat4 u_modelViewMat;
+  // mat2x3 Mat2,kkk;
+};
+
+#if defined NORMAL_VS || defined BUMP_VS || defined RELIEF_VS || defined RELIEF2_VS
+layout(location = 0) in vec3 a_pos;
+layout(location = 1) in vec3 a_nor;
+layout(location = 2) in vec2 a_tex;
+layout(location = 3) in vec4 a_tan;
+
+
+uniform mat4 u_modelViewProjMat;
+uniform mat3 u_normalMat;
+uniform vec2 u_texScale;
+
+varying vec2 v_tex;
+varying vec3 v_nor;
+varying vec3 v_tan;
+varying vec3 v_bin;
+
+#if defined BUMP_VS || defined RELIEF_VS || defined RELIEF2_VS
+uniform mat4 u_modelViewMat;
+varying vec3 v_eyeDir;
+#endif
+
+#if defined RELIEF_VS || defined RELIEF2_VS
+varying vec3 position_tan;
+varying vec3 eye_to_pos;
+#endif
+
+
+#ifdef RELIEF2_VS
+varying vec4 efragCoord;
+#endif
+
+void main() {
+  v_tex=a_tex*u_texScale;
+
+  vec3 n=normalize(u_normalMat*a_nor);
+  vec3 t=normalize(u_normalMat*a_tan.xyz);
+  vec3 b=normalize(-cross(n, t)*a_tan.w);
+
+#if defined BUMP_VS || defined RELIEF_VS || defined RELIEF2_VS
+
+  mat3 tbnMat = mat3(t.x, b.x, n.x,
+                     t.y, b.y, n.y,
+                     t.z, b.z, n.z);
+
+  vec4 pos=u_modelViewMat*vec4(a_pos,1.0);
+  //v_eyeDir=-normalize(pos.xyz / pos.w);
+  //v_eyeDir=tbnMat*v_eyeDir;
+  v_eyeDir=tbnMat*-pos.xyz;
+
+#endif
+
+#if defined RELIEF_VS || defined RELIEF2_VS
+   position_tan = vec3(a_pos) * tbnMat;
+   eye_to_pos = pos.xyz;
+#endif
+
+#ifdef RELIEF2_VS
+efragCoord = pos;
+#endif
+
+  v_nor=n;
+  v_tan=t;
+  v_bin=b;
+
+  gl_Position=u_modelViewProjMat*vec4(a_pos,1.0);
+}
+
+#endif
+
+#if defined NORMAL_FS || defined BUMP_FS || defined RELIEF2_FS
+layout(binding = 1) uniform sampler2D u_norMap;
+#endif
+
+#if defined NORMAL_FS || defined BUMP_FS || defined RELIEF_FS || defined RELIEF2_FS
+
+layout(binding = 0) uniform sampler2D u_colMap;
+
+varying vec2 v_tex;
+varying vec3 v_nor;
+varying vec3 v_tan;
+varying vec3 v_bin;
+
+
+#if defined BUMP_FS || defined RELIEF2_FS
+layout(binding = 2) uniform sampler2D u_hgtMap;
+#endif
+
+#if defined BUMP_FS
+uniform float u_scale;
+uniform float u_bias;
+#endif
+
+#if defined BUMP_FS || defined RELIEF_FS
+varying vec3 v_eyeDir;
+#endif
+
+#if defined RELIEF_FS || defined RELIEF2_FS
+varying vec3 eye_to_pos;
+#endif
+
+
+#ifdef RELIEF2_FS
+varying vec4 efragCoord;
+
+varying vec3 v_eyeDir;
+#endif
+
+
+#ifdef RELIEF2_FS
+
+
+varying vec3 position_tan;
+#define SHADOWS         1
+#define DEPTH_CORRECT   1
+#define SHOW_DEPTH      0
+
+#define LINEAR_STEPS    60
+#define BINARY_STEPS    16
+uniform vec2 u_zNearFar;
+uniform float u_scale2;
+
+float linearSearch(vec2 A, vec2 B) {
+  float t = 0.0;
+
+  for(int i = 0; i < LINEAR_STEPS; i++) {
+    t += 1.0 / LINEAR_STEPS;
+
+    float d = 1.0-texture2D(u_hgtMap, mix(A, B, t)).r;
+
+    if(t > d) break;
+  }
+
+  return t;
+}
+
+float binarySearch(vec2 A, vec2 B, float a, float b) {
+  float depth;
+
+  for(int i = 0; i < BINARY_STEPS; i++) {
+    depth = mix(a, b, 0.5);
+
+    float d =  1.0-texture2D(u_hgtMap, mix(A, B, depth)).r;
+
+
+    if(d > depth)
+      a = depth;
+    else
+      b = depth;
+  }
+
+    return depth;
+  }
+
+float fullSearch(vec2 A, vec2 B) {
+    float depth = linearSearch(A, B);
+    return binarySearch(A, B, depth-(1.0 / LINEAR_STEPS), depth);
+}
+
+#endif
+
+#ifdef RELIEF_FS
+layout(binding = 1) uniform sampler2D u_reliefMap;
+
+varying vec3 position_tan;
+#define SHADOWS         1
+//#define DEPTH_CORRECT   1
+#define SHOW_DEPTH      0
+
+#define LINEAR_STEPS    60
+#define BINARY_STEPS    16
+uniform vec2 u_zNearFar;
+uniform float u_scale;
+
+float linearSearch(vec2 A, vec2 B) {
+  float t = 0.0;
+
+  for(int i = 0; i < LINEAR_STEPS; i++) {
+    t += 1.0 / LINEAR_STEPS;
+
+    float d = texture2D(u_reliefMap, mix(A, B, t)).a;
+
+    if(t > d) break;
+  }
+
+  return t;
+}
+
+float binarySearch(vec2 A, vec2 B, float a, float b) {
+  float depth;
+
+  for(int i = 0; i < BINARY_STEPS; i++) {
+    depth = mix(a, b, 0.5);
+
+    float d =  texture2D(u_reliefMap, mix(A, B, depth)).a;
+
+
+    if(d > depth)
+      a = depth;
+    else
+      b = depth;
+  }
+
+    return depth;
+  }
+
+float fullSearch(vec2 A, vec2 B) {
+    float depth = linearSearch(A, B);
+    return binarySearch(A, B, depth-(1.0 / LINEAR_STEPS), depth);
+}
+
+
+
+#endif
+
+
+void main() {
+  vec3 t=normalize(v_tan);
+  vec3 b=normalize(v_bin);
+  vec3 n=normalize(v_nor);
+  mat3 tbnInvMat =  mat3(t,b,n);
+
+  vec2 newTexCoord =v_tex;
+
+  vec3 col=vec3(1.0);
+  vec3 nor=n;
+
+#if defined BUMP_FS || defined RELIEF_FS || defined RELIEF2_FS
+  vec3 E=normalize(v_eyeDir);
+#endif
+
+
+
+#ifdef RELIEF2_FS
+  vec2 A = v_tex;
+  float scale=u_scale2;
+  vec3 to_eye=E;
+  vec3 V = (to_eye / -to_eye.z) * scale;
+  vec2 B = A + V.xy;
+
+  float depth = fullSearch(A, B);
+
+
+  vec3 P = vec3(mix(A, B, depth), depth);
+
+  vec3 P_tan = position_tan + (to_eye / -to_eye.z) * scale * depth;
+  vec4 diffuse_col = texture2D(u_colMap, P.xy);
+  col = diffuse_col.rgb;
+
+  nor = texture2D(u_norMap, P.xy).rgb;
+
+  nor = normalize((nor - 0.5) * 2.0);
+  // nor.y=-nor.y;
+  nor=normalize(tbnInvMat*nor);
+
+
+#if DEPTH_CORRECT
+
+ float near = u_zNearFar.x;
+ float far  = u_zNearFar.y;
+ float p_eye_z = eye_to_pos.z + normalize(eye_to_pos).z * scale * depth;
+ gl_FragDepth = ((-far / (far - near)) * p_eye_z + (-far * near / (far - near))) / -p_eye_z;
+#endif
+#endif
+
+
+
+#ifdef RELIEF_FS
+  vec2 A = v_tex;
+  float scale=u_scale;
+  vec3 to_eye=E;
+  vec3 V = (to_eye / -to_eye.z) * scale;
+  vec2 B = A + V.xy;
+
+  float depth = fullSearch(A, B);
+
+
+  vec3 P = vec3(mix(A, B, depth), depth);
+
+  vec3 P_tan = position_tan + (to_eye / -to_eye.z) * scale * depth;
+  vec4 diffuse_col = texture2D(u_colMap, P.xy);
+  col = diffuse_col.rgb;
+
+  nor = texture2D(u_reliefMap, P.xy).rgb;
+
+  nor = normalize((nor - 0.5) * 2.0);
+  nor.y=-nor.y;
+  nor=normalize(tbnInvMat*nor);
+
+//   to_light = (light_pos - vec3(gl_Vertex)) * TBN;
+//   vec3 p_to_light = (position_tan + to_light) - P_tan;
+//   float n_dot_l = max(dot(norm, normalize(p_to_light)), 0.0);
+//   if(n_dot_l > 0.0) {
+// #if SHADOWS
+//     vec3 l_entry = P + (p_to_light / p_to_light.z) * scale * depth;
+//     vec3 l_exit  = l_entry + (p_to_light / -p_to_light.z) * scale;
+//     float l_depth = fullSearch(l_entry.xy, l_exit.xy);
+
+//     if(l_depth < depth-0.05)  {//in shadow
+//       col += diffuse_col * 0.2 * n_dot_l;
+//     } else {
+//       col += diffuse_col * n_dot_l;
+//       vec3 H = normalize(p_to_light + to_eye);
+//       col += vec4(0.5, 0.5, 0.5, 1.0) * pow(max(dot(norm,H),0.0), 64.0);
+//     }
+// #else
+//     col += diffuse_col * n_dot_l;
+
+//     vec3 H = normalize(p_to_light + to_eye);
+//     col += vec4(0.5, 0.5, 0.5, 1.0) * pow(max(dot(norm,H),0.0), 64.0);
+// #endif
+  // }
+
+#if DEPTH_CORRECT
+
+ float near = u_zNearFar.x;
+ float far  = u_zNearFar.y;
+ float p_eye_z = eye_to_pos.z + normalize(eye_to_pos).z * scale * depth;
+ gl_FragDepth = ((-far / (far - near)) * p_eye_z + (-far * near / (far - near))) / -p_eye_z;
+#endif
+#endif
+
+#ifdef BUMP_FS
+  float height = texture2D(u_hgtMap, v_tex).r;
+  height = height *u_scale + u_bias;
+  newTexCoord = v_tex + height * E.xy;
+#endif
+
+#if defined NORMAL_FS || defined BUMP_FS
+  col=texture2D(u_colMap,newTexCoord).rgb;
+  nor=texture2D(u_norMap,newTexCoord).rgb*2.0-1.0;
+  nor=normalize(tbnInvMat*nor);
+#endif
+
+  gl_FragData[0]=vec4(nor,0.0);
+   gl_FragData[1]=vec4(col.rgb,1.0);
+  //gl_FragData[1]=vec4(col.rgb+mycol.rgb,1.0);
+}
+
+#endif

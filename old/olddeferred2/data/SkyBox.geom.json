@@ -1,0 +1,21 @@
+{
+  "vertices" : {
+    "positions" : {
+      "size" : 3,
+      "type" : "float",
+      "data": [1,1,-1,-1,1,-1,1,-1,-1,-1,-1,-1,
+               1,1,1,-1,1,1,1,-1,1,-1,-1,1]
+    }
+  },
+  "indices" : {
+    "type" : "ushort",
+    "data" : [0,1,2,3,7,1,5,4,7,6,2,4,0,1]
+  },
+  "draws" : {
+    "default" : {
+      "mode" : "triangle_strip",
+      "first" : 0,
+      "count" : 14
+    }
+  }
+}

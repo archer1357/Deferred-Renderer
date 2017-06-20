@@ -1,0 +1,86 @@
+float posToDepth(vec3 viewPos,float znear,float zfar) {
+  float d=1.0/(zfar - znear);
+  
+  //ortho
+  //float p10=2.0, p11=znear-zfar; 
+  
+  //perspective
+  float p10=zfar+znear, p11=2.0*zfar*znear; 
+
+  //
+  float clipZ=(p10*viewPos.z+p11)*d;
+  float clipW=-mvZ;
+  float ndcZ = clipZ/clipW;
+  
+  //
+  float nearRange=0.0;
+  float farRange=1.0;
+  
+  return (((farRange-nearRange)*ndcZ)+nearRange+farRange)/2.0;
+}
+
+vec3 depthToPos(mat4 invProjMat,vec2 screen,float depth) {
+  vec4 H=vec4(vec3(screen,depth)*2.0-1.0,1.0);//screen.xy between -1 and 1
+  vec4 D=invProjMat*H;
+  return D.xyz/D.w;
+}
+
+float linearDepth(float depth,float znear,float zfar) {
+  return (2.0*znear)/(zfar+znear-depth*(zfar-znear));
+}
+
+void mat4_frustum(float *out,float left,float right,float bottom,float top,float zNear,float zFar) {
+  memset(out,0,sizeof(float)*16);
+
+  out[0]=(2.0f*zNear)/(right-left); //x
+  out[2]=(right+left)/(right-left); //A
+  out[5]=(2.0f*zNear)/(top-bottom); //y
+  out[6]=(top+bottom)/(top-bottom); //B
+  out[10]=-(zFar+zNear)/(zFar-zNear); //C
+  out[11]=-(2.0f*zFar*zNear)/(zFar-zNear); //D
+  out[14]=-1.0f;
+}
+
+void mat4_perspective_fovx(float *out,float fovx,float aspect,float znear,float zfar) {
+  float right=tan(fovx/2.0f)*znear;
+  float top=right/aspect;
+  
+  mat4_frustum(out,-right,right,-top,top,znear,zfar);
+}
+
+void mat4_perspective_fovy(float *out,float fovy,float aspect,float znear,float zfar) {
+  float top=tan(fovy/2.0f)*znear;
+  float right=top*aspect;
+  
+  mat4_frustum(out,-right,right,-top,top,znear,zfar);
+}
+
+void mat4_ortho(float *out,float left,float right,float bottom,float top,float nearVal,float farVal) {
+  memset(out,0,sizeof(float)*16);
+
+  out[0]=2.0f/(right-left);
+  out[3]=-(right+left)/(right-left); //tx
+  out[5]=2.0f/(top-bottom);
+  out[7]=-(top+bottom)/(top-bottom); //ty
+  out[10]=-2.0f/(nearVal-farVal);
+  out[11]=-(farVal+nearVal)/(farVal-nearVal); //tz
+  out[15]=1.0f;
+}
+
+void mat4_ortho2d(float *out,float left,float right,float bottom,float top) {
+  mat4_ortho(out,left,right,bottom,top,-1.0f,1.0f);
+}
+
+=========================
+//from aras-p.info/texts/CompactNormalStorage.html
+  
+vec3 decodeNorSphereMap(vec2 enc) {
+  vec2 fenc = enc*4.0-2.0;
+  float f = dot(fenc,fenc);
+  float g = sqrt(1.0-f/4.0);
+  return vec3(fenc*g,1.0-f/2.0);
+}
+
+vec2 encodeNorSphereMap(vec3 n) {
+  return n.xy/sqrt(8.0*n.z+8.0) + 0.5;
+}

@@ -1,0 +1,25 @@
+{
+  "draws": {
+    "default": {
+      "count": 36, 
+      "mode": "triangles", 
+      "first": 0
+    }
+  }, 
+  "indices": {
+    "data": "AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcA", 
+    "type": "ushort"
+  }, 
+  "vertices": {
+    "positions": {
+      "size": 3, 
+      "data": "7f//PQAAAL7//38/CAAAvv///73//38/+v//vv///74BAIC/AwAAPwAAAL/5/3+/5v//Pf///z0AAIA/AQAAP////z7+/3+/+P//vgAAAD8DAIC/DQAAvgAAAD79/38/7f//PQAAAL7//38/5v//Pf///z0AAIA/DQAAvgAAAD79/38/CAAAvv///73//38/CAAAvv///73//38/DQAAvgAAAD79/38/+P//vgAAAD8DAIC/+v//vv///74BAIC/+v//vv///74BAIC/+P//vgAAAD8DAIC/AQAAP////z7+/3+/AwAAPwAAAL/5/3+/5v//Pf///z0AAIA/7f//PQAAAL7//38/AwAAPwAAAL/5/3+/AQAAP////z7+/3+/", 
+      "type": "float"
+    }, 
+    "normals": {
+      "size": 3, 
+      "data": "1kMCtIKde78jtjw+1kMCtIKde78jtjw+1kMCtIKde78jtjw+1kMCtIKde78jtjw+E6ews4Odez8gtjw+E6ews4Odez8gtjw+E6ews4Odez8gtjw+E6ews4Odez8gtjw+1LsLtVuICKoAAIA/1LsLtVuICKoAAIA/1LsLtVuICKoAAIA/1LsLtVuICKoAAIA/hJ17v7SVjjMXtjw+hJ17v7SVjjMXtjw+hJ17v7SVjjMXtjw+hJ17v7SVjjMXtjw+1LsDNQAAkLQAAIC/1LsDNQAAkLQAAIC/1LsDNQAAkLQAAIC/1LsDNQAAkLQAAIC/gp17P1IpGzQvtjw+gp17P1IpGzQvtjw+gp17P1IpGzQvtjw+gp17P1IpGzQvtjw+", 
+      "type": "float"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+
+  
+void smoothPoints(double weightModifier, const double *history,
+                  int count, double *smoothedVal) {
+
+  int i;
+  double average,averageTotal,weight,filteredVal;
+
+  average = 0.0;
+  averageTotal = 0.0;
+  weight = 1.0;
+
+  for(i=0;i<count;++i) {
+    average+=history[i]*weight;
+    averageTotal+=weight;
+    weight*=weightModifier;
+  }
+
+  filteredVal=average/averageTotal;
+
+  //original algorithm (from www.dhpoware.com GLCamera3 demo) stored the
+  //previous 'filtered' and used that instead of the previous
+  //'smoothed', which is used here since it is less hassle
+  *smoothedVal = (filteredVal + (*smoothedVal)) * 0.5;
+}
+
+void mouse_smooth_usage() {
+  double mouseHistoryX[MOUSE_HISTORY_SIZE];
+  double mouseHistoryY[MOUSE_HISTORY_SIZE];
+  double smoothMouseX=0.0,smoothMouseY=0.0;
+
+  memmove(&mouseHistoryX[1],mouseHistoryX,sizeof(mouseHistoryX)-sizeof(double));
+  memmove(&mouseHistoryY[1],mouseHistoryY,sizeof(mouseHistoryY)-sizeof(double));
+
+  mouseHistoryX[0]=window_mouse_x();
+  mouseHistoryY[0]=window_mouse_y();
+
+  smoothPoints(0.2,mouseHistoryX,MOUSE_HISTORY_SIZE,&smoothMouseX);
+  smoothPoints(0.2,mouseHistoryY,MOUSE_HISTORY_SIZE,&smoothMouseY);
+  memset(mouseHistoryX, 0, sizeof(mouseHistoryX));
+  memset(mouseHistoryY, 0, sizeof(mouseHistoryY));
+}
+
+
+void calcTimeStep(int maxSteps, double stepTime, double curTime,
+                  double *accumTime, int *steps, double *interpTime) {
+
+  (*steps)=(int)((curTime-(*accumTime))/stepTime);
+
+  if((*steps) > maxSteps) {
+    (*steps)=maxSteps;
+    (*accumTime)=curTime;
+    (*interpTime)=0.0;
+  } else {
+    (*accumTime)+=(double)(*steps)*stepTime;
+    (*interpTime)=curTime-(*accumTime);
+  }
+}

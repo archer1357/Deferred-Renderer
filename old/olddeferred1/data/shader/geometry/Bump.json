@@ -1,0 +1,8 @@
+{
+  "vertex" : "Bump.vs",
+  "fragment" : "Bump.fs",
+  "defines" : {
+    "NORMAL" : "",
+    "BUMP" : ""
+  } 
+}

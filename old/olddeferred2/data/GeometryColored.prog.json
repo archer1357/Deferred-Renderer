@@ -1,0 +1,8 @@
+{
+  "vertex" : "GeometryColored.vs",
+  "fragment" : "GeometryColored.fs",
+  "attributes" : {
+    "a_pos" : 0,
+    "a_nor" : 1
+  }
+}

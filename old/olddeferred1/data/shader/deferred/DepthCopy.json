@@ -1,0 +1,4 @@
+{
+  "vertex" : "Common.vs",
+  "fragment" : "DepthCopy.fs"
+}

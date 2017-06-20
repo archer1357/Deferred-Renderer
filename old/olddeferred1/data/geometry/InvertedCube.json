@@ -1,0 +1,35 @@
+{
+  "draws" : {
+    "default" : {
+      "first" : 0,
+      "count" : 36,
+      "mode" : "triangles"
+    }
+  },
+  "indices" : {
+    "data" : "AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcA",
+    "type" : "ushort"
+  },
+  "vertices" : {
+    "texcoords_UVMap" : {
+      "size" : 2,
+      "data" : "AAAAAAAAAAAAAIA/AAAAAAAAgD8AAIA/AAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAACAPwAAgD8AAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAIA/AACAPwAAAAAAAIA/AACAPwAAgD8AAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAACAPwAAgD8AAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAIA/AACAPwAAAAAAAIA/",
+      "type" : "float"
+    },
+    "normals" : {
+      "size" : 3,
+      "data" : "Lr07swAAAAAAAIA/Lr07swAAAAAAAIA/Lr07swAAAAAAAIA/Lr07swAAAAAAAIA/AACAvy69OzMuvTuzAACAvy69OzMuvTuzAACAvy69OzMuvTuzAACAvy69OzMuvTuzLr07MwAAAAAAAIC/Lr07MwAAAAAAAIC/Lr07MwAAAAAAAIC/Lr07MwAAAAAAAIC/AACAPy69O7MuvTszAACAPy69O7MuvTszAACAPy69O7MuvTszAACAPy69O7MuvTszLr07MwAAgD/trQknLr07MwAAgD/trQknLr07MwAAgD/trQknLr07MwAAgD/trQknLr07swAAgL/trQmnLr07swAAgL/trQmnLr07swAAgL/trQmnLr07swAAgL/trQmn",
+      "type" : "float"
+    },
+    "positions" : {
+      "size" : 3,
+      "data" : "//9/vwAAgD8AAIC/AACAv///f78AAIC/AACAPwAAgL///3+/AQCAP///fz///3+/AQCAP///fz///3+/AACAPwAAgL///3+///9/PwAAgL8AAIA/AACAP///fz8AAIA/AACAP///fz8AAIA///9/PwAAgL8AAIA/AQCAv///f7///38/AACAvwAAgD///38/AACAv///f78AAIC///9/vwAAgD8AAIC/AACAvwAAgD///38/AQCAv///f7///38/AACAv///f78AAIC/AQCAv///f7///38///9/PwAAgL8AAIA/AACAPwAAgL///3+/AACAvwAAgD///38///9/vwAAgD8AAIC/AQCAP///fz///3+/AACAP///fz8AAIA/",
+      "type" : "float"
+    },
+    "tangents_UVMap" : {
+      "size" : 3,
+      "data" : "AAAAAAAAgL8AAACAAAAAswAAgL8uvbumAAAAAAAAgL8AAACAAACAswAAgL8uvTunLr07swAAgL8EPUgmLr07swAAgL8EPUgmLr07swAAgL9YPS+mLr07swAAgL9YPS+mAAAAgAAAgL8AAAAAAAAAswAAgL8uvbumAAAAgAAAgL8AAAAAAACAswAAgL8uvTunLr07swAAgL9YPS+mLr07swAAgL9YPS+mLr07swAAgL8EPUgmLr07swAAgL8EPUgmle/Jmu2tCacAAIA/AACAswQ9SCYAAIA/le/Jmu2tCacAAIA/AAAAs1g9L6YAAIA/le/JGu2tCScAAIC/AAAAM1g9LyYAAIC/le/JGu2tCScAAIC/AACAMwQ9SKYAAIC/",
+      "type" : "float"
+    }
+  }
+}

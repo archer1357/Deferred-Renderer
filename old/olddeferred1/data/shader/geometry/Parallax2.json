@@ -1,0 +1,7 @@
+{
+  "vertex" : "Parallax.vs",
+  "fragment" : "Parallax.fs",
+  "fragment_defines" : {
+    "NORMAL_HEIGHT_MAPS" : ""
+  }
+}

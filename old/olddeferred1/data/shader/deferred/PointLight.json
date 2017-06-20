@@ -1,0 +1,7 @@
+{
+  "vertex" : "Common.vs",
+  "fragment" : "Light.fs",
+  "fragment_defines" : {
+    "POINT" : ""
+  }
+}

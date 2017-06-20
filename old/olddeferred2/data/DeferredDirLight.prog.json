@@ -1,0 +1,15 @@
+{
+  "vertex" : "Deferred.vs",
+  "fragment" : "DeferredLight.fs",
+  "fragment_defines" : {
+    "DIRECTIONAL" : ""
+  },
+  "attributes" : {
+    "a_pos" : 0
+  },
+  "samplers" : {
+    "u_colMap" : 0,
+    "u_norMap" : 1,
+    "u_depthMap" : 2
+  }
+}

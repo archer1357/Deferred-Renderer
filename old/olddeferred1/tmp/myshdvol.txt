@@ -1,0 +1,45 @@
+
+    if(false) {
+      const float *pt0=inVerts[0];
+      const float *pt1=inVerts[2];
+      const float *pt2=inVerts[4];
+      float sub10[3],sub20[3],n[3];
+      vec3::sub(sub10,pt1,pt0);
+      vec3::sub(sub20,pt2,pt0);
+      vec3::cross(n,sub20,sub10);
+      vec3::normal(n,n);
+      float d=vec3::dot(lightPos,n);
+
+      if(d>0.0f) {
+        Face face={adjInds[0],adjInds[2],adjInds[4]};
+        litFaces.push_back(face);
+
+        Edge newEdges[] = {
+          {adjInds[0], adjInds[2]},
+          {adjInds[2], adjInds[4]},
+          {adjInds[4], adjInds[0]}};
+
+        for(int j=0;j<3;j++) {
+          Edge newEdge=newEdges[j];
+          bool removed=false;
+          std::list<Edge>::iterator k=silhouetteEdges.begin();
+
+          while(k!=silhouetteEdges.end()) {
+            Edge kk=*k;
+
+            if((newEdge.a==kk.a && newEdge.b==kk.b) ||
+               (newEdge.a==kk.b && newEdge.b==kk.a)) {
+              k=silhouetteEdges.erase(k);
+              removed=true;
+              break;
+            } else {
+              k++;
+            }
+          }
+
+          if(!removed) {
+            silhouetteEdges.push_back(newEdge);
+          }
+        }
+      }
+    } else {}

@@ -1,0 +1,4 @@
+{
+  "geometry" : "SkyBox.geom.json",
+  "vao" : "SkyBox.vao.json"
+}

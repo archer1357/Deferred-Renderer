@@ -1,0 +1,25 @@
+{
+  "vertex" : "GeometryBump.vs",
+  "fragment" : "GeometryBump.fs",
+  "attributes" : {
+    "a_pos" : 0,
+    "a_nor" : 1,
+    "a_tex" : 2,
+    "a_tan" : 3
+  },
+  "samplers" : {
+    "u_colMap" : 0,
+    "u_norMap" : 1,
+    "u_hgtMap" : 2
+  },
+  "defines" : {
+    "NORMAL" : "",
+    "BUMP" : ""
+  },
+  "vertex_defines" : {
+    "BUMP_VS" : ""
+  },
+  "fragment_defines" : {
+    "BUMP_FS" : ""
+  }
+}

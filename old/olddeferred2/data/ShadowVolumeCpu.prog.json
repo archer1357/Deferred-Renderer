@@ -1,0 +1,4 @@
+{
+   "vertex" : "ShadowVolumeCpu.vs",
+   "fragment" : "ShadowVolume.fs"
+}

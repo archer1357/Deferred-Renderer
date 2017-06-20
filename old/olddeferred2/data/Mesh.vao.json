@@ -1,0 +1,7 @@
+{
+  "positions" : 0,
+  "normals" : 1,
+  "texcoords_UVMap" : 2,
+  "tangents_UVMap" : 3,
+  "colors_Col" : 4
+}

@@ -1,0 +1,35 @@
+{
+  "draws" : {
+    "default" : {
+      "first" : 0,
+      "count" : 6,
+      "mode" : "triangles"
+    }
+  },
+  "indices" : {
+    "data" : "AAABAAIAAAACAAMA",
+    "type" : "ushort"
+  },
+  "vertices" : {
+    "texcoords_UVMap" : {
+      "size" : 2,
+      "data" : "WOzROFys0Thz+X8/WszROHP5fz9z+X8/XKzROHP5fz8=",
+      "type" : "float"
+    },
+    "normals" : {
+      "size" : 3,
+      "data" : "Lr07MwAAgD/trQknLr07MwAAgD/trQknLr07MwAAgD/trQknLr07MwAAgD/trQkn",
+      "type" : "float"
+    },
+    "positions" : {
+      "size" : 3,
+      "data" : "//9/vy69OzMAAIC/AACAvy69OzP//38///9/Py69O7MAAIA/AACAPy69O7P//3+/",
+      "type" : "float"
+    },
+    "tangents_UVMap" : {
+      "size" : 3,
+      "data" : "jgaAs3VjSCYAAIA/jf6/s7frDycAAIA/le/Jmu2tCacAAIA/AAAAs1g9L6YAAIA/",
+      "type" : "float"
+    }
+  }
+}

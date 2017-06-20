@@ -1,0 +1,20 @@
+{
+  "draws" : {
+    "default" : {
+      "first" : 0,
+      "mode" : "triangles_adjacency",
+      "count" : 72
+    }
+  },
+  "vertices" : {
+    "positions" : {
+      "data" : "AAAAAAAAAAAAAAAAAAAAAAAAgD8AAIC///9/vwAAgD8AAIC///9/vwAAgL8AAIA///9/vwAAgD8AAIC/AACAPwEAgD///38///9/vwAAgD8AAIA///9/PwAAgD8AAIA///9/PwAAgL8AAIA/AACAPwAAgL8AAIA///9/PwAAgD8BAIC///9/v///fz8AAIA/",
+      "type" : "float",
+      "size" : 4
+    }
+  },
+  "indices" : {
+    "data" : "AQAGAAIABwADAAQAAQACAAMABwAEAAYABAAHAAUACAAGAAEABAAFAAYAAgABAAMABQAEAAcAAgAIAAYABQAHAAgAAgAGAAQAAgAGAAgABQAHAAMAAgAIAAcABAADAAEAAgADAAEABAAGAAgAAgABAAYABQAIAAcABwAIAAUABgAEAAMABwAFAAQAAQADAAIA",
+    "type" : "ushort"
+  }
+}

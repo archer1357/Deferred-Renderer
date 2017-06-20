@@ -1,0 +1,7 @@
+{
+  "vertex" : "ShadowCpu.vs",
+  "fragment" : "White.fs",
+  "vertex_defines" : {
+    "DIRECTIONAL" : ""
+  }
+}

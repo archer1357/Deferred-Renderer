@@ -1,0 +1,10 @@
+{
+  "vertex" : "Deferred.vs",
+  "fragment" : "DeferredPositions.fs",
+  "attributes" : {
+    "a_pos" : 0
+  },
+  "samplers" : {
+    "u_depthMap" : 2
+  }
+}

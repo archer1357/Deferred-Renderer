@@ -1,0 +1,5 @@
+{
+  "vertex" : "Silhouette.vs",
+  "geometry" : "Silhouette.gs",
+  "fragment" : "White.fs"
+}

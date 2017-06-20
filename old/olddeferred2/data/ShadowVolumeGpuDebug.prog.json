@@ -1,0 +1,8 @@
+{
+  "geometry" : "ShadowVolumeGpu.gs",
+  "vertex" : "ShadowVolumeGpu.vs",
+  "fragment" : "ShadowVolume.fs",
+  "geometry_defines" : {
+    "DEBUG" : ""
+  }
+}

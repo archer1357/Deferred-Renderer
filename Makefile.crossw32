@@ -1,0 +1,30 @@
+OUTDIR = bin
+OUTFILE = ./$(OUTDIR)/DeferredRenderer.exe
+CC = i686-w64-mingw32-c++
+
+CPPFLAGS := -DWIN32 -DUNICODE -Iinclude
+CXXFLAGS := -std=gnu++11
+LDFLAGS := -lgdi32 -lopengl32 -luser32 -static -lpthread
+
+objs := $(patsubst %.cpp,$(OUTDIR)/%.o,$(wildcard *.cpp))
+deps := $(objs:.o=.dep)
+
+.PHONY: all test
+all: $(OUTFILE)
+
+-include $(deps)
+
+$(OUTDIR)/%.o: %.cpp
+	@mkdir -p $(@D)
+	$(CC) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	@$(CC) $(CPPFLAGS) $(CXXFLAGS) -MM $< | sed -e '1,1 s|[^:]*:|$@:|' > $(@D)/$*.dep
+
+$(OUTFILE) : $(objs)
+	$(CC) $^ $(LDFLAGS) -o $@
+
+test: $(OUTFILE)
+	@wine $(OUTFILE)
+
+clean:
+	@rm -f $(deps) $(objs) $(OUTFILE)
+	@rmdir --ignore-fail-on-non-empty $(OUTDIR)

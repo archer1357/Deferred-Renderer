@@ -1,0 +1,10 @@
+{
+  "vertex" : "DepthCopy.vs",
+  "fragment" : "DepthCopy.fs",
+  "attributes" : {
+    "a_pos" : 0
+  },
+  "samplers" : {
+    "u_depthMap" : 2
+  }
+}

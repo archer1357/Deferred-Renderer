@@ -1,0 +1,7 @@
+{
+  "geometry" : "ShadowGpu.gs",
+  "vertex" : "ShadowGpu.vs",
+  "geometry_defines" : {
+    "DIRECTIONAL" : ""
+  }
+}

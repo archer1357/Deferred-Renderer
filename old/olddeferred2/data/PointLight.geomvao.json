@@ -1,0 +1,4 @@
+{
+  "geometry" : "PointLight.geom.json",
+  "vao" : "Mesh.vao.json"
+}

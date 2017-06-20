@@ -1,0 +1,6 @@
+bin/
+Debug/
+Release/
+msvc.opensdf
+msvc.sdf
+msvc.v11.suo

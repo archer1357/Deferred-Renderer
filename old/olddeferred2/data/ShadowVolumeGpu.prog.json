@@ -1,0 +1,5 @@
+{
+  "geometry" : "ShadowVolumeGpu.gs",
+  "vertex" : "ShadowVolumeGpu.vs",
+  "fragment" : "ShadowVolume.fs"
+}

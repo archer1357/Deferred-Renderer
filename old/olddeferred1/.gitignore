@@ -1,0 +1,9 @@
+/bin/
+/msvc.opensdf
+/msvc.sdf
+/msvc.v11.suo
+/data/geometry/churchenterior*
+/data/geometry/sponza*
+/data/geometry/sibenik*
+/*.exe
+/*.lnk

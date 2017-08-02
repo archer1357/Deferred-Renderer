@@ -30,7 +30,7 @@ bool checkGlError(const char *n=0) {
 }
 
 bool checkFboError(const char *n=0) {
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  GLenum status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
 
   if(status == GL_FRAMEBUFFER_COMPLETE) {
     return true;
@@ -523,7 +523,7 @@ void renderScene() {
   glViewport(0,0,renderWidth,renderHeight);
 
   //bind deferred fbo
-  glBindFramebuffer(GL_FRAMEBUFFER,deferredFbo);
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER,deferredFbo);
 
 
   //clear deferred fbo
@@ -538,7 +538,7 @@ void renderScene() {
     //renderSsao();
   }
   //unbind fbo
-  glBindFramebuffer(GL_FRAMEBUFFER,0);
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
 
   //bind deferred color tex
   glActiveTexture(GL_TEXTURE0);
@@ -556,14 +556,14 @@ void renderScene() {
   glBindSampler(2,0);
 
   //copy deferred depth to main frame buffer
-  copyDeferredDepth();
+  //copyDeferredDepth();
 
   //bind light fbo
-  glBindFramebuffer(GL_FRAMEBUFFER,lightFbo);
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER,lightFbo);
 
 
   //copy deferred depth to light frame buffer
-  copyDeferredDepth();
+  //copyDeferredDepth();
 
   //clear
   glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -645,7 +645,7 @@ void renderScene() {
   renderSky();
 
   //unbind fbo
-  glBindFramebuffer(GL_FRAMEBUFFER,0);
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
 
   //
   //bind light color tex
@@ -1022,16 +1022,16 @@ bool setup() {
 
   //deferred depth
   glBindTexture(GL_TEXTURE_2D,deferredDepthTex);
-  glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH_COMPONENT32F,
-    width,height,0,GL_DEPTH_COMPONENT,
-    GL_FLOAT,0);
+  glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH24_STENCIL8,
+    width,height,0,GL_DEPTH_STENCIL,
+    GL_UNSIGNED_INT_24_8,0);
 
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC,GL_LEQUAL);
-  glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,deferredDepthTex,0);
+  glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER,GL_DEPTH_STENCIL_ATTACHMENT,GL_TEXTURE_2D,deferredDepthTex,0);
 
   //
   GLenum drawBufs[]={ GL_COLOR_ATTACHMENT0+(GLenum)colorIn,GL_COLOR_ATTACHMENT0+(GLenum)normalIn };
@@ -1056,7 +1056,9 @@ bool setup() {
   glBindRenderbuffer(GL_RENDERBUFFER,lightDepthStencilBuf);
   glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH24_STENCIL8,width,height);
   checkGlError("Bb3");
-  glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,GL_DEPTH_STENCIL_ATTACHMENT,GL_RENDERBUFFER,lightDepthStencilBuf);
+  //glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,GL_DEPTH_STENCIL_ATTACHMENT,GL_RENDERBUFFER,lightDepthStencilBuf);
+  //glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,deferredDepthTex,0);
+  glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER,GL_DEPTH_STENCIL_ATTACHMENT,GL_TEXTURE_2D,deferredDepthTex,0);
 
   //check lightFbo status
   if(!checkFboError("light fbo")) {

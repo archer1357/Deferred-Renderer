@@ -96,6 +96,65 @@ GeometryManager::DrawHandle GeometryManager::getDraw(const std::string &geometry
 
   return DrawHandle(geom,drawIt->second);
 }
+/*
+GLuint GeometryManager::getShdVao(const std::string &geometryFn){
+    if(geometryFn.empty()) {
+        return 0;
+    }
+
+    //
+    std::string key = geometryFn + " & shd";
+
+    auto it = vaos.find(key);
+
+    if(it != vaos.end()) {
+        return it->second;
+    }
+
+    //
+    GLuint vao;
+    glGenVertexArrays(1,&vao);
+    loadShdVao(vao,geometryFn);
+    vaos.insert(std::make_pair(key,vao));
+    return vao;
+}
+
+DrawHandle GeometryManager::getShdDraw(const std::string &geometryFn){
+  Geometry *geom = getGeometry(geometryFn);
+  return DrawHandle(geom,&geom->shdDraw);
+}
+
+bool GeometryManager::loadShdVao(GLuint vao,const std::string &geometryFn){
+  //
+  Geometry *geometry = getGeometry(geometryFn);
+ 
+  //
+  if(!geometry->ok ) {
+    return false;
+  }
+ 
+  //
+  glBindVertexArray(vao);
+
+  //disable existing attribs
+  retrieveMaxAttribs();
+
+  for(int i=0;i<maxAttribs;i++) {
+    glDisableVertexAttribArray(i);
+  }
+
+  //vertex buffers
+  
+
+    glBindBuffer(GL_ARRAY_BUFFER,geometry->shdVertices->buffer);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
+    glEnableVertexAttribArray(0);
+    
+  //index buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,geometry->shdIndices->buffer);
+
+  return true;
+}*/
 
 void GeometryManager::releaseGeometryBuffers(Geometry *geometry) {
   //vertices
@@ -168,6 +227,20 @@ GeometryManager::Geometry *GeometryManager::getGeometry(const std::string &fn) {
   geometries.insert(std::make_pair(fn,geometry));
   return geometry;
 }
+/*
+void removeDupls(std::map<std::string,const float*> &result,const float *verts,unsigned int vertsNum) {
+    for(unsigned int i=0;i<vertsNum;i++) {
+        const float *vert=&verts[i*3];
+        std::string key=std::string("")+vert[0] + " & " + vert[1] + " & " + vert[2];
+        
+        auto it=result.find(key);
+        
+        if(it==result.end()) {
+            result.insert(std::make_pair(key,vert));
+        }
+    }
+}*/
+
 
 bool GeometryManager::loadGeometry(Geometry *geometry,const std::string &fn) {
 
@@ -303,6 +376,21 @@ bool GeometryManager::loadGeometry(Geometry *geometry,const std::string &fn) {
       return false;
     }
   }
+  
+  //
+  /*
+    geometry->shdVertices=new Geometry::Vertices;
+    geometry->shdIndices = new Geometry::Indices();
+    
+    Vertices *posVerts=geometry->vertices["positions"];
+    
+    //geometry->shdDraw;
+    
+   std::map<std::string,const float*> shdVertsMap;
+  removeDupls(vertsMap,const float *verts,unsigned int vertsNum)
+  */
+  
+  //
 
   std::cerr << fn << " : Geometry : loaded.\n";
   geometry->ok = true;

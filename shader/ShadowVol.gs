@@ -2,10 +2,12 @@
 // rearranging front cap and back cap functions reverses the problem
 // partially solved: doesn't like having the emitvertex & endprimitive inside functions other than main
 
-#version 330
+#version 440
 //#extension GL_ARB_geometry_shader4 : enable
 
 layout(triangles_adjacency) in;
+
+in int vertexID[];
 
 #if defined POINT
 # ifdef ZPASS
@@ -231,7 +233,9 @@ void main() {
     int i1 = (i*2+2) % 6;
     
     // first vertex with w==0.0 reserved to represent no-adjacent vertex, 
-    if(gl_in[nb].gl_Position.w==0.0) {
+    if(vertexID[nb]==0
+    //gl_in[nb].gl_Position.w==0.0
+    ) {
 #ifdef DEBUG
       emitSide(i0,i1,vec3(0.3,0.3,1.0));
 #else

@@ -27,6 +27,11 @@ private:
     std::map<std::string,Draw*> draws;
     std::set<std::string> layoutDeps;
     
+    Vertices *shdVertices;
+    Indices *shdIndices;
+    Draw shdDraw;
+    
+    
     FileModified modified;
   };
   struct Layout {
@@ -59,6 +64,8 @@ public:
   void clear();
   GLuint getVao(const std::string &geometryFn,const std::string &layoutFn);
   DrawHandle getDraw(const std::string &geometryFn,const std::string &drawName);
+  GLuint getShdVao(const std::string &geometryFn);
+  DrawHandle getShdDraw(const std::string &geometryFn,const std::string &drawName);
 private:
   void retrieveMaxAttribs();
   void releaseGeometryBuffers(Geometry *geometry);
@@ -68,6 +75,7 @@ private:
   bool loadGeometry(Geometry *geometry,const std::string &fn);
   bool loadLayout(Layout *layout,const std::string &fn);
   bool loadVao(GLuint vao,const std::string &geometryFn,const std::string &layoutFn);
+  bool loadShdVao(GLuint vao,const std::string &geometryFn);
   bool reloadVao(const std::string &geometryFn,const std::string &layoutFn);
 public:
   bool reloadLayout(const std::string &fn);

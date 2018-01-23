@@ -27,9 +27,6 @@
     <ClCompile Include="..\GeometryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\gl_core_3_3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,10 +51,13 @@
     <ClCompile Include="..\UniformManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\WindowWin32.cpp">
+    <ClCompile Include="..\gl_core_3_3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\WindowX11.cpp">
+    <ClCompile Include="..\window_w32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\window_x11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\GeometryManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\gl_core_3_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Keyframer.h">
@@ -107,13 +104,16 @@
     <ClInclude Include="..\UniformManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Window.h">
+    <ClInclude Include="..\gl_core_3_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\WindowWin32.h">
+    <ClInclude Include="..\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\WindowX11.h">
+    <ClInclude Include="..\window_w32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\window_x11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

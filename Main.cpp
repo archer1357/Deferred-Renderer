@@ -1075,49 +1075,49 @@ void handleInput() {
                     mouseHistory,MOUSE_HISTORY_SIZE, 0.2,
                     &mouseSmoothX,&mouseSmoothY);
 
-  mouseLook=window_input_down(WINDOW_MOUSE_LEFT);
-  camera.setForward(window_input_down(WINDOW_KEY_W));
-  camera.setBackward(window_input_down(WINDOW_KEY_S));
-  camera.setLeftward(window_input_down(WINDOW_KEY_A));
-  camera.setRightward(window_input_down(WINDOW_KEY_D));
+  mouseLook=window_key_down(MOUSE_LEFT);
+  camera.setForward(window_key_down(KEY_W));
+  camera.setBackward(window_key_down(KEY_S));
+  camera.setLeftward(window_key_down(KEY_A));
+  camera.setRightward(window_key_down(KEY_D));
 
-  if(window_input_press(WINDOW_KEY_1)) {
+  if(window_key_press(KEY_1)) {
     light1->on=!light1->on;
   }
 
-  if(window_input_press(WINDOW_KEY_8)) {
+  if(window_key_press(KEY_8)) {
     light2->on=!light2->on;
   }
 
-  if(window_input_press(WINDOW_KEY_2)) {
+  if(window_key_press(KEY_2)) {
     useShadowDebug=!useShadowDebug;
   }
 
-  if(window_input_press(WINDOW_KEY_4)) {
+  if(window_key_press(KEY_4)) {
     useShadowSmooth=!useShadowSmooth;
   }
 
-  if(window_input_press(WINDOW_KEY_3)) {
+  if(window_key_press(KEY_3)) {
     useBackfaceShadow=!useBackfaceShadow;
   }
 
-  if(window_input_press(WINDOW_KEY_5)) {
+  if(window_key_press(KEY_5)) {
     useShadowPolygonOffset=!useShadowPolygonOffset;
   }
 
-  if(window_input_press(WINDOW_KEY_6)) {
+  if(window_key_press(KEY_6)) {
     useShadowZPass=!useShadowZPass;
   }
 
-  if(window_input_press(WINDOW_KEY_7)) {
+  if(window_key_press(KEY_7)) {
     useShadowDepthLessEqual=!useShadowDepthLessEqual;
   }
 
-  if(window_input_press(WINDOW_KEY_9)) {
+  if(window_key_press(KEY_9)) {
     useSsao=!useSsao;
   }
 
-  if(window_input_press(WINDOW_KEY_P)) {
+  if(window_key_press(KEY_P)) {
     const float *pos=camera.getPos();
     float yaw=camera.getYaw();
     float pitch=camera.getPitch();
@@ -1125,12 +1125,12 @@ void handleInput() {
               << pos[2] << "; " << yaw << "," << pitch << std::endl;
   }
 
-  if(window_input_press(WINDOW_KEY_M)) {
+  if(window_key_press(KEY_M)) {
     buildingObj->visible=!buildingObj->visible;
     templeObj->visible=!templeObj->visible;
   }
 
-  if(window_input_press(WINDOW_KEY_U)) {
+  if(window_key_press(KEY_U)) {
     useAntiAliasing++;
 
     if(useAntiAliasing>2) {
@@ -1138,13 +1138,13 @@ void handleInput() {
     }
   }
 
-  if(window_input_down(WINDOW_KEY_T)) {
+  if(window_key_down(KEY_T)) {
     for(int i=0;i<3;i++) {
       light1->pos[i]=camera.getPos()[i];
     }
   }
 
-  if(window_input_press(WINDOW_KEY_F5) || window_input_press(WINDOW_KEY_G)) {
+  if(window_key_press(KEY_F5) || window_key_press(KEY_G)) {
     uniformManager.clearPrograms();
     shaderManager.refresh();
     textureManager.refresh();
@@ -1152,7 +1152,7 @@ void handleInput() {
   }
 
 
-  if(window_input_press(WINDOW_KEY_J)) {
+  if(window_key_press(KEY_J)) {
     std::string geomDefs;
     std::string debugFs;
 
@@ -1231,17 +1231,17 @@ int main(int argc,char* argv[]) {
   timer.start();
 
   //main loop
-  while(window_update() && !window_input_press(WINDOW_KEY_ESCAPE)) {
+  while(window_update() && !window_key_press(KEY_ESCAPE)) {
     // curTime=timer2.elapsed();
     curTime=timer.stop();
     static double lastTime=curTime;
     frame=curTime;
     //
-    if(window_iconified()) {
-      window_swap_buffers();
-      lastTime=curTime;
-      continue;
-    }
+    // if(window_iconified()) {
+    //   window_swap_buffers();
+    //   lastTime=curTime;
+    //   continue;
+    // }
     renderWidth=window_client_width();
     renderHeight=window_client_height();
 
@@ -1260,13 +1260,15 @@ int main(int argc,char* argv[]) {
     //
     deltaTime=curTime-lastTime;
 
-    if(mouseLook  && window_focused() && !window_iconified()) {
-      window_lock_cursor(true);
+    if(mouseLook ) {// && window_focused() && !window_iconified()
+      // window_lock_cursor(true);
+      window_lock_cursor();
       camera.setPitching((float)mouseSmoothY);
       camera.setYawing((float)mouseSmoothX);
-    } else {
-      window_lock_cursor(false);
     }
+    // else {
+    //   window_lock_cursor(false);
+    // }
 
 
     camera.update((float)deltaTime);

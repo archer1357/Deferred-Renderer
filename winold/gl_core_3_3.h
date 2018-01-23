@@ -1,59 +1,6 @@
 #ifndef POINTER_C_GENERATED_HEADER_OPENGL_H
 #define POINTER_C_GENERATED_HEADER_OPENGL_H
 
-#if defined(__EMSCRIPTEN__)
-
-#include <emscripten.h>
-
-#ifdef GL1
-#include <GL/gl.h>
-#include <GL/glu.h>
-#else
-#include <GLES2/gl2.h>
-#endif
-
-
-enum ogl_LoadStatus {
-  ogl_LOAD_FAILED = 0,
-  ogl_LOAD_SUCCEEDED = 1,
-};
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-#ifndef GL1
-  void glGenVertexArrays(GLsizei n,GLuint *arrays);
-  void glDeleteVertexArrays(GLsizei n,const GLuint *arrays);
-  void glBindVertexArray(GLuint array);
-  GLboolean glIsVertexArray(GLuint array);
-#endif
-
-  int ogl_LoadFunctions();
-
-#ifdef __cplusplus
-}
-#endif
-
-#elif defined(GL1)
-
-enum ogl_LoadStatus {
-  ogl_LOAD_FAILED = 0,
-  ogl_LOAD_SUCCEEDED = 1,
-};
-#include <GL/glu.h>
-#include <GL/gl.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-  int ogl_LoadFunctions();
-#ifdef __cplusplus
-}
-#endif
-#else
-// b
 #if defined(__glew_h__) || defined(__GLEW_H__)
 #error Attempt to include auto-generated header after including glew.h
 #endif
@@ -1734,4 +1681,3 @@ int ogl_IsVersionGEQ(int majorVersion, int minorVersion);
 #endif /*__cplusplus*/
 
 #endif //POINTER_C_GENERATED_HEADER_OPENGL_H
-#endif

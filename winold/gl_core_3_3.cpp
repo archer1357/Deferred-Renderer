@@ -1,23 +1,7 @@
-
-#include "gl_core_3_3.h"
-#include <stdio.h>
-
-#if defined __EMSCRIPTEN__
-
-int ogl_LoadFunctions() {
-  return ogl_LOAD_SUCCEEDED;
-}
-#elif defined(GL1)
-
-int ogl_LoadFunctions() {
-  return ogl_LOAD_SUCCEEDED;
-}
-
-#else
-
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include "gl_core_3_3.h"
 
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
@@ -78,9 +62,9 @@ static int TestPointer(const PROC pTest)
 	ptrdiff_t iTest;
 	if(!pTest) return 0;
 	iTest = (ptrdiff_t)pTest;
-
+	
 	if(iTest == 1 || iTest == 2 || iTest == 3 || iTest == -1) return 0;
-
+	
 	return 1;
 }
 
@@ -95,7 +79,7 @@ static PROC WinGetProcAddress(const char *name)
 	glMod = GetModuleHandleA("OpenGL32.dll");
 	return (PROC)GetProcAddress(glMod, (LPCSTR)name);
 }
-
+	
 #define IntGetProcAddress(name) WinGetProcAddress(name)
 #else
 	#if defined(__APPLE__)
@@ -1184,7 +1168,7 @@ static ogl_StrToExtMap *FindExtEntry(const char *extensionName)
 		if(strcmp(extensionName, currLoc->extensionName) == 0)
 			return currLoc;
 	}
-
+	
 	return NULL;
 }
 
@@ -1236,27 +1220,18 @@ int ogl_LoadFunctions()
 {
 	int numFailed = 0;
 	ClearExtensionVars();
-
+	
 	_ptrc_glGetIntegerv = (void (CODEGEN_FUNCPTR *)(GLenum, GLint *))IntGetProcAddress("glGetIntegerv");
-	if(!_ptrc_glGetIntegerv) {
-	    fprintf(stderr,"loading gl extensions failed.\n");
-	return ogl_LOAD_FAILED;
-	}
+	if(!_ptrc_glGetIntegerv) return ogl_LOAD_FAILED;
 	_ptrc_glGetStringi = (const GLubyte * (CODEGEN_FUNCPTR *)(GLenum, GLuint))IntGetProcAddress("glGetStringi");
-	if(!_ptrc_glGetStringi) {
-
-    fprintf(stderr,"loading gl extensions failed.\n");
-	return ogl_LOAD_FAILED;
-	}
-
-	//ProcExtsFromExtList(); //todo replace with glgetstring(gl_extensions) and loop through space sep string
+	if(!_ptrc_glGetStringi) return ogl_LOAD_FAILED;
+	
+	ProcExtsFromExtList();
 	numFailed = Load_Version_3_3();
-
-	if(numFailed == 0) {
+	
+	if(numFailed == 0)
 		return ogl_LOAD_SUCCEEDED;
-		}
-
-
+	else
 		return ogl_LOAD_SUCCEEDED + numFailed;
 }
 
@@ -1287,11 +1262,10 @@ int ogl_IsVersionGEQ(int majorVersion, int minorVersion)
 {
 	if(g_major_version == 0)
 		GetGLVersion();
-
+		
 	if(majorVersion > g_major_version) return 1;
 	if(majorVersion < g_major_version) return 0;
 	if(minorVersion >= g_minor_version) return 1;
 	return 0;
 }
 
-#endif

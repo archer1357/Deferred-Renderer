@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -24,8 +24,8 @@
     <ClCompile Include="..\TextureManager.cpp" />
     <ClCompile Include="..\Timer.cpp" />
     <ClCompile Include="..\UniformManager.cpp" />
-    <ClCompile Include="..\WindowWin32.cpp" />
-    <ClCompile Include="..\WindowX11.cpp" />
+    <ClCompile Include="..\window_w32.cpp" />
+    <ClCompile Include="..\window_x11.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Camera.h" />
@@ -43,9 +43,9 @@
     <ClInclude Include="..\TextureManager.h" />
     <ClInclude Include="..\Timer.h" />
     <ClInclude Include="..\UniformManager.h" />
-    <ClInclude Include="..\Window.h" />
-    <ClInclude Include="..\WindowWin32.h" />
-    <ClInclude Include="..\WindowX11.h" />
+    <ClInclude Include="..\window.h" />
+    <ClInclude Include="..\window_w32.h" />
+    <ClInclude Include="..\window_x11.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0EDE3924-0C23-4ED7-B9EE-99CB11F466BC}</ProjectGuid>
@@ -57,14 +57,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
